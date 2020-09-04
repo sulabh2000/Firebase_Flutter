@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "391814643968",
+    "firebase_url": "https://linuxsul.firebaseio.com",
+    "project_id": "linuxsul",
+    "storage_bucket": "linuxsul.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391814643968:android:ef1c423d964f79850d73e5",
+        "android_client_info": {
+          "package_name": "com.sulabh.firetest_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "391814643968-vs1b5cr9v00mjtnt9hu0vitj2ifgs166.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvS4uQM3EPqFoxKZ-eJqw9KMX12I-eyFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "391814643968-vs1b5cr9v00mjtnt9hu0vitj2ifgs166.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
