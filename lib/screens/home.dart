@@ -10,11 +10,16 @@ class _MyHomeState extends State<MyHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome'),
+        backgroundColor: Colors.blueAccent,
+        leading: Icon(Icons.home),
+        title: Text('Welcome to Linux Server'),
       ),
       body: Center(
         child: Container(
           // width: 300,
+          width: double.infinity,
+          height: double.infinity,
+          color: Colors.brown[200],
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

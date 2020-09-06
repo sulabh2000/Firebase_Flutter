@@ -24,8 +24,7 @@ class _MyLoginState extends State<MyLogin> {
             child: MaterialButton(
               minWidth: 50,
               height: 5,
-              onPressed: () async {
-                await authc.signOut();
+              onPressed: () {
                 Navigator.pushNamedAndRemoveUntil(
                     context, "/", (route) => false);
               },
