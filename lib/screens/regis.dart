@@ -60,6 +60,9 @@ class _MyRegisState extends State<MyRegis> {
                       var user = await authc.createUserWithEmailAndPassword(
                           email: email, password: password);
                       print(user);
+                      if (user.additionalUserInfo.isNewUser == true) {
+                        Navigator.pushNamed(context, "chat");
+                      }
                     } catch (e) {
                       print(e);
                     }

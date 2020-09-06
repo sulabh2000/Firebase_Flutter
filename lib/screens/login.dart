@@ -59,12 +59,14 @@ class _MyLoginState extends State<MyLogin> {
                   minWidth: 200,
                   height: 40,
                   onPressed: () async {
-                    try{
-                    var user = await authc.signInWithEmailAndPassword(
-                        email: email, password: password);
-                    print(user);
-                    }catch(e)
-                    {
+                    try {
+                      var user = await authc.signInWithEmailAndPassword(
+                          email: email, password: password);
+                      print(user);
+                      if (user.additionalUserInfo.isNewUser == false) {
+                        Navigator.pushNamed(context, "chat");
+                      }
+                    } catch (e) {
                       print(e);
                     }
                   },
