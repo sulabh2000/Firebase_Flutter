@@ -7,41 +7,74 @@ class MyLogin extends StatefulWidget {
 }
 
 class _MyLoginState extends State<MyLogin> {
-  var authc = FirebaseAuth.instance;
   String email;
   String password;
+  var authc = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Login'),
-        ),
-        body: Container(
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
+      body: Center(
+        child: Container(
+          width: 300,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextField(
+                keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
                   email = value;
                 },
+                decoration: InputDecoration(
+                  hintText: "Enter Email",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                ),
+              ),
+              SizedBox(
+                height: 20,
               ),
               TextField(
+                obscureText: true,
                 onChanged: (value) {
                   password = value;
                 },
+                decoration: InputDecoration(
+                  hintText: "Enter Password",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
               ),
-              RaisedButton(
-                onPressed: () async {
-                  var x = await authc.signInWithEmailAndPassword(
-                      email: email, password: password);
-                  print(x);
-                  if (x != null) {
-                    Navigator.pushNamed(context, "chat");
-                  }
-                },
-                child: Text('Sign In'),
+              SizedBox(
+                height: 40,
+              ),
+              Material(
+                color: Colors.lightBlueAccent,
+                elevation: 10,
+                borderRadius: BorderRadius.circular(10),
+                child: MaterialButton(
+                  minWidth: 200,
+                  height: 40,
+                  onPressed: () async {
+                    try{
+                    var user = await authc.signInWithEmailAndPassword(
+                        email: email, password: password);
+                    print(user);
+                    }catch(e)
+                    {
+                      print(e);
+                    }
+                  },
+                  child: Text("Submit"),
+                ),
               )
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
