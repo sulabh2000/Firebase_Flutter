@@ -14,7 +14,25 @@ class _MyRegisState extends State<MyRegis> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(Icons.verified_user),
         title: Text('Registration'),
+        actions: <Widget>[
+          Material(
+            color: Colors.green,
+            elevation: 10,
+            borderRadius: BorderRadius.circular(10),
+            child: MaterialButton(
+              minWidth: 50,
+              height: 5,
+              onPressed: () async {
+                await authc.signOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, "/", (route) => false);
+              },
+              child: Text("Go to Home"),
+            ),
+          )
+        ],
       ),
       body: Center(
         child: Container(

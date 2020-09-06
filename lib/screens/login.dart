@@ -14,7 +14,25 @@ class _MyLoginState extends State<MyLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(Icons.check_circle),
         title: Text('Login'),
+        actions: <Widget>[
+          Material(
+            color: Colors.green,
+            elevation: 10,
+            borderRadius: BorderRadius.circular(10),
+            child: MaterialButton(
+              minWidth: 50,
+              height: 5,
+              onPressed: () async {
+                await authc.signOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, "/", (route) => false);
+              },
+              child: Text("Go to Home"),
+            ),
+          )
+        ],
       ),
       body: Center(
         child: Container(
