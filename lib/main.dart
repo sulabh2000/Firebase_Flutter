@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firetest_app/screens/chat.dart';
 import 'package:firetest_app/screens/home.dart';
 import 'package:firetest_app/screens/login.dart';
+import 'package:firetest_app/screens/output.dart';
 import 'package:firetest_app/screens/regis.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,6 +17,7 @@ void main() async {
       "log": (context) => MyLogin(),
       "reg": (context) => MyRegis(),
       "chat": (context) => MyChat(),
+      "out": (context) => MyOutput(),
     },
     debugShowCheckedModeBanner: false,
   ));

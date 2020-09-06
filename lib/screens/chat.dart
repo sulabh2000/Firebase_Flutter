@@ -99,12 +99,11 @@ class _MyChatState extends State<MyChat> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          var d = await fsconnect.collection("Commands").get();
-          for (var i in d.docs) print(i.data());
+        onPressed: () {
+          Navigator.pushNamed(context, "out");
         },
         label: Text("Check Database"),
-        icon: Icon(Icons.show_chart),
+        icon: Icon(Icons.bubble_chart),
         backgroundColor: Colors.lightBlueAccent[300],
       ),
     );
