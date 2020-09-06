@@ -106,6 +106,15 @@ class _MyRegisState extends State<MyRegis> {
                         }
                       } catch (e) {
                         print(e);
+                        Fluttertoast.showToast(
+                          msg: "Invalid Format",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+
                       }
                     } else {
                       Fluttertoast.showToast(

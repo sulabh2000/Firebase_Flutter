@@ -14,7 +14,7 @@ class _MyChatState extends State<MyChat> {
   var fsconnect = FirebaseFirestore.instance;
   var command;
   myweb(cmd) async {
-    var url = "http://192.168.43.33/cgi-bin/stop.py?x=${cmd}";
+    var url = "http://192.168.43.33/cgi-bin/command.py?x=${cmd}";
     var response = await http.get(url);
     return response.body;
   }
@@ -53,7 +53,7 @@ class _MyChatState extends State<MyChat> {
       ),
       body: Center(
         child: Container(
-          width: 400,
+          width: 350,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -77,16 +77,35 @@ class _MyChatState extends State<MyChat> {
                     minWidth: 100,
                     height: 40,
                     onPressed: () async {
-                      var x = await myweb(command);
-                      fsconnect.collection("Students").add({
-                        "Output": x,
-                      });
+                      try {
+                        var x = await myweb(command);
+                        fsconnect.collection("Commands").add({
+                          "Output": x,
+                        });
+                        Fluttertoast.showToast(
+                            msg: "Command run successfully, Saving in Database",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      } catch (e) {}
                     },
                     child: Text("Run Command"),
                   )),
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          var d = await fsconnect.collection("Commands").get();
+          for (var i in d.docs) print(i.data());
+        },
+        label: Text("Check Database"),
+        icon: Icon(Icons.show_chart),
+        backgroundColor: Colors.lightBlueAccent[300],
       ),
     );
   }
