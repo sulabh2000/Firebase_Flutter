@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class MyRegis extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class MyRegis extends StatefulWidget {
 class _MyRegisState extends State<MyRegis> {
   String email;
   String password;
+  String cpassword;
   var authc = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -18,8 +20,8 @@ class _MyRegisState extends State<MyRegis> {
         title: Text('Registration'),
         actions: <Widget>[
           Material(
-            color: Colors.green,
-            elevation: 10,
+            color: Colors.blue,
+            elevation: 30,
             borderRadius: BorderRadius.circular(10),
             child: MaterialButton(
               minWidth: 50,
@@ -63,6 +65,19 @@ class _MyRegisState extends State<MyRegis> {
                         borderRadius: BorderRadius.circular(20))),
               ),
               SizedBox(
+                height: 20,
+              ),
+              TextField(
+                obscureText: true,
+                onChanged: (value) {
+                  cpassword = value;
+                },
+                decoration: InputDecoration(
+                    hintText: "Confirm Password",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20))),
+              ),
+              SizedBox(
                 height: 40,
               ),
               Material(
@@ -73,15 +88,34 @@ class _MyRegisState extends State<MyRegis> {
                   minWidth: 200,
                   height: 40,
                   onPressed: () async {
-                    try {
-                      var user = await authc.createUserWithEmailAndPassword(
-                          email: email, password: password);
-                      print(user);
-                      if (user.additionalUserInfo.isNewUser == true) {
-                        Navigator.pushNamed(context, "chat");
+                    if (password == cpassword) {
+                      try {
+                        var user = await authc.createUserWithEmailAndPassword(
+                            email: email, password: password);
+                        print(user);
+                        if (user.additionalUserInfo.isNewUser == true) {
+                          Navigator.pushNamed(context, "chat");
+                          Fluttertoast.showToast(
+                              msg: "Registered Successfully",
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.green,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        }
+                      } catch (e) {
+                        print(e);
                       }
-                    } catch (e) {
-                      print(e);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Enter Correct Password",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
                     }
                   },
                   child: Text('Submit'),
