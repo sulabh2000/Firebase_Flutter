@@ -4,6 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 
+var x;
+
 class MyChat extends StatefulWidget {
   @override
   _MyChatState createState() => _MyChatState();
@@ -24,7 +26,7 @@ class _MyChatState extends State<MyChat> {
     return Scaffold(
       appBar: AppBar(
         leading: Icon(Icons.chat),
-        title: Center(child: Text('Chat')),
+        title: Center(child: Text('Hello World!')),
         actions: <Widget>[
           Material(
             color: Colors.blue,
@@ -99,12 +101,43 @@ class _MyChatState extends State<MyChat> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.pushNamed(context, "out");
+        onPressed: () async {
+          try {
+            var d = await fsconnect.collection("Commands").get();
+            for (var i in d.docs) x = (i.data());
+            Fluttertoast.showToast(
+                msg: "Showing Database",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 16.0);
+            Navigator.pushNamed(context, "out");
+          } catch (e) {}
         },
         label: Text("Check Database"),
         icon: Icon(Icons.bubble_chart),
         backgroundColor: Colors.lightBlueAccent[300],
+      ),
+    );
+  }
+}
+
+class MyOutput extends StatefulWidget {
+  @override
+  _MyOutputState createState() => _MyOutputState();
+}
+
+class _MyOutputState extends State<MyOutput> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Output"),
+      ),
+      body: Container(
+        child: Text("$x"),
       ),
     );
   }
