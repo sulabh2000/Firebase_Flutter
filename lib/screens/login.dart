@@ -82,7 +82,7 @@ class _MyLoginState extends State<MyLogin> {
                           email: email, password: password);
                       print(user);
                       if (user.additionalUserInfo.isNewUser == false) {
-                        Navigator.pushNamed(context, "chat");
+                        Navigator.pushNamed(context, "app");
                         Fluttertoast.showToast(
                             msg: "Logged In",
                             toastLength: Toast.LENGTH_LONG,

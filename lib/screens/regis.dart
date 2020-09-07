@@ -94,7 +94,7 @@ class _MyRegisState extends State<MyRegis> {
                             email: email, password: password);
                         print(user);
                         if (user.additionalUserInfo.isNewUser == true) {
-                          Navigator.pushNamed(context, "chat");
+                          Navigator.pushNamed(context, "app");
                           Fluttertoast.showToast(
                               msg: "Registered Successfully",
                               toastLength: Toast.LENGTH_LONG,
