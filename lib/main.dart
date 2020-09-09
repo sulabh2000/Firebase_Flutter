@@ -17,7 +17,6 @@ void main() async {
       "reg": (context) => MyRegis(),
       "chat": (context) => MyChat(),
       "out": (context) => MyOutput(),
-      "app": (context) => MyApp(),
     },
     debugShowCheckedModeBanner: false,
   ));
