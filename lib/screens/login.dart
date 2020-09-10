@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class MyLogin extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class MyLogin extends StatefulWidget {
 class _MyLoginState extends State<MyLogin> {
   String email;
   String password;
+  bool spin = false;
   var authc = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -34,80 +36,89 @@ class _MyLoginState extends State<MyLogin> {
           )
         ],
       ),
-      body: Center(
-        child: Container(
-          width: 300,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (value) {
-                  email = value;
-                },
-                decoration: InputDecoration(
-                  hintText: "Enter Email",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextField(
-                obscureText: true,
-                onChanged: (value) {
-                  password = value;
-                },
-                decoration: InputDecoration(
-                  hintText: "Enter Password",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
+      body: ModalProgressHUD(
+        inAsyncCall: spin,
+        child: Center(
+          child: Container(
+            width: 300,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (value) {
+                    email = value;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Enter Email",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20)),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Material(
-                color: Colors.lightBlueAccent,
-                elevation: 10,
-                borderRadius: BorderRadius.circular(10),
-                child: MaterialButton(
-                  minWidth: 200,
+                SizedBox(
+                  height: 20,
+                ),
+                TextField(
+                  obscureText: true,
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Enter Password",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+                SizedBox(
                   height: 40,
-                  onPressed: () async {
-                    try {
-                      var user = await authc.signInWithEmailAndPassword(
-                          email: email, password: password);
-                      print(user);
-                      if (user.additionalUserInfo.isNewUser == false) {
-                        Navigator.pushNamed(context, "chat");
+                ),
+                Material(
+                  color: Colors.lightBlueAccent,
+                  elevation: 10,
+                  borderRadius: BorderRadius.circular(10),
+                  child: MaterialButton(
+                    minWidth: 200,
+                    height: 40,
+                    onPressed: () async {
+                      setState(() {
+                        spin = true;
+                      });
+                      try {
+                        var user = await authc.signInWithEmailAndPassword(
+                            email: email, password: password);
+                        print(user);
+                        if (user.additionalUserInfo.isNewUser == false) {
+                          Navigator.pushNamed(context, "chat");
+                          setState(() {
+                            spin = false;
+                          });
+                          Fluttertoast.showToast(
+                              msg: "Logged In",
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.green,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        }
+                      } catch (e) {
+                        print(e);
                         Fluttertoast.showToast(
-                            msg: "Logged In",
-                            toastLength: Toast.LENGTH_LONG,
-                            gravity: ToastGravity.BOTTOM,
+                            msg: "Invalid Credentials",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
                             timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.green,
+                            backgroundColor: Colors.red,
                             textColor: Colors.white,
                             fontSize: 16.0);
                       }
-                    } catch (e) {
-                      print(e);
-                      Fluttertoast.showToast(
-                          msg: "Invalid Credentials",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-                    }
-                  },
-                  child: Text("Submit"),
-                ),
-              )
-            ],
+                    },
+                    child: Text("Submit"),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class MyRegis extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class _MyRegisState extends State<MyRegis> {
   String email;
   String password;
   String cpassword;
+  bool spin = false;
   var authc = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -35,102 +37,110 @@ class _MyRegisState extends State<MyRegis> {
           )
         ],
       ),
-      body: Center(
-        child: Container(
-          width: 300,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (value) {
-                  email = value;
-                },
-                decoration: InputDecoration(
-                    hintText: "Enter Email",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextField(
-                obscureText: true,
-                onChanged: (value) {
-                  password = value;
-                },
-                decoration: InputDecoration(
-                    hintText: "Enter Password",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextField(
-                obscureText: true,
-                onChanged: (value) {
-                  cpassword = value;
-                },
-                decoration: InputDecoration(
-                    hintText: "Confirm Password",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Material(
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(10),
-                elevation: 10,
-                child: MaterialButton(
-                  minWidth: 200,
+      body: ModalProgressHUD(
+        inAsyncCall: spin,
+        child: Center(
+          child: Container(
+            width: 300,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (value) {
+                    email = value;
+                  },
+                  decoration: InputDecoration(
+                      hintText: "Enter Email",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextField(
+                  obscureText: true,
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  decoration: InputDecoration(
+                      hintText: "Enter Password",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextField(
+                  obscureText: true,
+                  onChanged: (value) {
+                    cpassword = value;
+                  },
+                  decoration: InputDecoration(
+                      hintText: "Confirm Password",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                ),
+                SizedBox(
                   height: 40,
-                  onPressed: () async {
-                    if (password == cpassword) {
-                      try {
-                        var user = await authc.createUserWithEmailAndPassword(
-                            email: email, password: password);
-                        print(user);
-                        if (user.additionalUserInfo.isNewUser == true) {
-                          Navigator.pushNamed(context, "chat");
+                ),
+                Material(
+                  color: Colors.lightBlueAccent,
+                  borderRadius: BorderRadius.circular(10),
+                  elevation: 10,
+                  child: MaterialButton(
+                    minWidth: 200,
+                    height: 40,
+                    onPressed: () async {
+                      if (password == cpassword) {
+                        setState(() {
+                          spin = true;
+                        });
+                        try {
+                          var user = await authc.createUserWithEmailAndPassword(
+                              email: email, password: password);
+                          print(user);
+                          if (user.additionalUserInfo.isNewUser == true) {
+                            Navigator.pushNamed(context, "chat");
+                            setState(() {
+                              spin = false;
+                            });
+                            Fluttertoast.showToast(
+                                msg: "Registered Successfully",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
+                        } catch (e) {
+                          print(e);
                           Fluttertoast.showToast(
-                              msg: "Registered Successfully",
-                              toastLength: Toast.LENGTH_LONG,
-                              gravity: ToastGravity.BOTTOM,
+                              msg: "Something is Wrong",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
                               timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.green,
+                              backgroundColor: Colors.red,
                               textColor: Colors.white,
                               fontSize: 16.0);
                         }
-                      } catch (e) {
-                        print(e);
+                      } else {
                         Fluttertoast.showToast(
-                          msg: "Something is Wrong",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-
+                            msg: "Enter Correct Password",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
                       }
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: "Enter Correct Password",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-                    }
-                  },
-                  child: Text('Submit'),
-                ),
-              )
-            ],
+                    },
+                    child: Text('Submit'),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
