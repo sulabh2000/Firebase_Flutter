@@ -1,4 +1,4 @@
-# firetest_app
+# LINUX APP
 
 A Flutter project to Run Linux commands on remote server and save them in Firestore. 
 
