@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 
-var x;
+var x = "Nothing to Show";
 
 class MyChat extends StatefulWidget {
   @override
@@ -80,9 +80,10 @@ class _MyChatState extends State<MyChat> {
                     height: 40,
                     onPressed: () async {
                       try {
-                        var x = await myweb(command);
-                        fsconnect.collection("Commands").add({
-                          "Output": x,
+                        var y = await myweb(command);
+                        x = y;
+                        fsconnect.collection("Command").add({
+                          "Output": y,
                         });
                         Fluttertoast.showToast(
                             msg: "Command run successfully, Saving in Database",
@@ -101,10 +102,8 @@ class _MyChatState extends State<MyChat> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
+        onPressed: () {
           try {
-            var d = await fsconnect.collection("Commands").get();
-            for (var i in d.docs) x = (i.data());
             Fluttertoast.showToast(
                 msg: "Showing Database",
                 toastLength: Toast.LENGTH_LONG,
@@ -134,10 +133,11 @@ class _MyOutputState extends State<MyOutput> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Output"),
+        title: Center(child: Text("Output")),
       ),
       body: Container(
-        child: Text("$x"),
+        color: Colors.grey,
+        child: Center(child: Text("$x")),
       ),
     );
   }

@@ -107,7 +107,7 @@ class _MyRegisState extends State<MyRegis> {
                       } catch (e) {
                         print(e);
                         Fluttertoast.showToast(
-                          msg: "Invalid Format",
+                          msg: "Something is Wrong",
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.CENTER,
                           timeInSecForIosWeb: 1,

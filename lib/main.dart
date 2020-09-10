@@ -1,4 +1,3 @@
-import 'package:firetest_app/screens/app.dart';
 import 'package:firetest_app/screens/chat.dart';
 import 'package:firetest_app/screens/home.dart';
 import 'package:firetest_app/screens/login.dart';
@@ -10,6 +9,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MaterialApp(
+    theme: ThemeData.fallback(),
     initialRoute: "/",
     routes: {
       "/": (context) => MyHome(),
