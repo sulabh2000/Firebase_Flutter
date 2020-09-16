@@ -89,7 +89,7 @@ class _MyLoginState extends State<MyLogin> {
                             email: email, password: password);
                         print(user);
                         if (user.additionalUserInfo.isNewUser == false) {
-                          Navigator.pushNamed(context, "chat");
+                          Navigator.pushNamed(context, "cam");
                           setState(() {
                             spin = false;
                           });

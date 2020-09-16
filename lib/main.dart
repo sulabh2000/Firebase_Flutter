@@ -1,7 +1,10 @@
 import 'package:firetest_app/screens/chat.dart';
 import 'package:firetest_app/screens/home.dart';
 import 'package:firetest_app/screens/login.dart';
+import 'package:firetest_app/screens/mycamera.dart';
 import 'package:firetest_app/screens/regis.dart';
+import 'package:firetest_app/screens/splash.dart';
+import 'package:firetest_app/screens/stream.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -10,13 +13,16 @@ void main() async {
   await Firebase.initializeApp();
   runApp(MaterialApp(
     theme: ThemeData.fallback(),
-    initialRoute: "/",
+    initialRoute: "splash",
     routes: {
       "/": (context) => MyHome(),
       "log": (context) => MyLogin(),
       "reg": (context) => MyRegis(),
       "chat": (context) => MyChat(),
       "out": (context) => MyOutput(),
+      "cam": (context) => MyCamera(),
+      "splash": (context) => MySplash(),
+      "stream": (context) => MyStream(),
     },
     debugShowCheckedModeBanner: false,
   ));
